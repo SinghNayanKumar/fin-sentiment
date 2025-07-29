@@ -24,6 +24,15 @@ def create_data_loaders(tokenizer):
 
     print(f"Dataset loaded. Splits: {list(ds.keys())}")
 
+    # Create a mapping from 'type' (an string) to an integer ID
+    unique_types = ds['train'].unique('type')
+    type2id = {type_name: i for i, type_name in enumerate(unique_types)}
+    id2type = {i: type_name for type_name, i in type2id.items()}
+    # We'll save this mapping to the config for use in evaluation
+    config.ID2TYPE = id2type
+    print(f"Document types found and mapped: {type2id}")
+
+
     # 2. Define the preprocessing function
     def preprocess_function(examples):
         # Format input text based on the task type from config.py
@@ -45,6 +54,9 @@ def create_data_loaders(tokenizer):
 
         # For regression, the 'labels' are the float scores from the dataset.
         tokenized_inputs["labels"] = examples[config.LABEL_COLUMN]
+
+        # Add the type_id to our processed data
+        tokenized_inputs["type_ids"] = [type2id[t] for t in examples['type']]
         
         return tokenized_inputs
 
@@ -61,7 +73,7 @@ def create_data_loaders(tokenizer):
 
     # The labels are already named 'score', so we rename to 'labels'.
     tokenized_datasets = tokenized_datasets.rename_column("score", "labels")
-    tokenized_datasets.set_format("torch")
+    tokenized_datasets.set_format("torch",columns=["input_ids", "attention_mask", "labels", "type_ids"])
 
     # 4. Create a Data Collator for dynamic padding
     # This pads each batch to the length of the longest sequence in that batch.
