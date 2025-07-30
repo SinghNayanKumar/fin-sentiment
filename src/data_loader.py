@@ -1,8 +1,7 @@
-# data_loader.py
 import torch
 from torch.utils.data import DataLoader
 from datasets import load_dataset
-from transformers import DataCollatorWithPadding
+from transformers import DataCollatorWithPadding, AutoTokenizer
 import config
 
 def create_data_loaders(tokenizer):
@@ -32,6 +31,8 @@ def create_data_loaders(tokenizer):
     config.ID2TYPE = id2type
     print(f"Document types found and mapped: {type2id}")
 
+    #Defining tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(config.MODEL_NAME)
 
     # 2. Define the preprocessing function
     def preprocess_function(examples):
@@ -62,7 +63,7 @@ def create_data_loaders(tokenizer):
 
     # 3. Apply the preprocessing function to all splits of the dataset
     print("Tokenizing and formatting dataset...")
-    columns_to_remove = ['_id', 'sentence', 'target', 'aspect', 'type']
+    columns_to_remove = ['_id', 'sentence', 'target', 'aspect', 'type','score']
     tokenized_datasets = ds.map(
         preprocess_function,
         batched=True,
@@ -72,7 +73,7 @@ def create_data_loaders(tokenizer):
 
 
     # The labels are already named 'score', so we rename to 'labels'.
-    tokenized_datasets = tokenized_datasets.rename_column("score", "labels")
+    #tokenized_datasets = tokenized_datasets.rename_column("score", "labels")
     tokenized_datasets.set_format("torch",columns=["input_ids", "attention_mask", "labels", "type_ids"])
 
     # 4. Create a Data Collator for dynamic padding

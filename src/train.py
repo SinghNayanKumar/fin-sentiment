@@ -15,16 +15,16 @@ def train_epoch(model, data_loader, optimizer, device, scheduler):
     for batch in progress_bar:
         optimizer.zero_grad()
         
-        input_ids = batch["input_ids"].to(device)
-        attention_mask = batch["attention_mask"].to(device)
-        # Labels are floats for regression. Ensure shape is [batch_size, 1].
+        # The model only accepts arguments it's designed for.
+        model_inputs = {
+            'input_ids': batch['input_ids'].to(device),
+            'attention_mask': batch['attention_mask'].to(device)
+        }
         labels = batch["labels"].to(device).unsqueeze(1)
         
-        outputs = model(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
-            labels=labels
-        )
+        # Pass model_inputs using **kwargs and labels separately
+        outputs = model(**model_inputs, labels=labels)
+
         
         loss = outputs.loss  # This is MSELoss by default for regression
         total_loss += loss.item()
