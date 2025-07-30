@@ -46,7 +46,7 @@ def score_to_label_eval(score):
     elif score < config.NEGATIVE_THRESHOLD:
         return 0  # Negative
     else:
-        return 1  # Neutral
+        return 1  # NeutralD
 
 def evaluate(model, data_loader, device):
     """
@@ -62,15 +62,17 @@ def evaluate(model, data_loader, device):
     with torch.no_grad():
         progress_bar = tqdm(data_loader, desc="Evaluating", leave=False)
         for batch in progress_bar:
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
+            # As in training, separate the model inputs from our metadata.
+            model_inputs = {
+                'input_ids': batch['input_ids'].to(device),
+                'attention_mask': batch['attention_mask'].to(device)
+            }
+            # Keep labels and type_ids for our own calculations
             true_scores = batch["labels"]
             type_ids = batch["type_ids"]
             
-            outputs = model(
-                input_ids=input_ids,
-                attention_mask=attention_mask
-            )
+            # Call the model with only the arguments it expects
+            outputs = model(**model_inputs)
             
             # Squeeze to remove the last dimension: [batch_size, 1] -> [batch_size]
             predicted_scores = outputs.logits.squeeze(-1)

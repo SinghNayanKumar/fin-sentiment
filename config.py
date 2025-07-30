@@ -14,6 +14,7 @@ TASK_TYPE = 'absa'
 TEXT_COLUMN = 'sentence'
 ASPECT_COLUMN = 'aspect'
 LABEL_COLUMN = 'score'
+ID2TYPE = None
 
 # -- Training Hyperparameters --
 MAX_LENGTH = 256
