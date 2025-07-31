@@ -8,6 +8,7 @@ import utils
 import data_loader
 import model_handler
 import training
+import wandb
 
 # Initialize logger
 logger = utils.get_logger(__name__)
@@ -16,11 +17,25 @@ def run():
     """
     Main function to orchestrate the training and evaluation pipeline.
     """
-    # For reproducibility
-    utils.set_seed(config.RANDOM_SEED)
+    # --- 1. START A NEW W&B RUN ---
+    wandb.init(
+        project="financial-sentiment-analysis",  # Name of your project
+        config={
+            "model_name": config.MODEL_NAME,
+            "task_type": config.TASK_TYPE,
+            "learning_rate": config.LEARNING_RATE,
+            "epochs": config.NUM_EPOCHS,
+            "batch_size": config.BATCH_SIZE,
+            "max_length": config.MAX_LENGTH,
+            "seed": config.RANDOM_SEED,
+        }
+    )
+    
+    # For convenience, you can access config like wandb.config.learning_rate
+    
+    utils.set_seed(wandb.config.seed)
 
     logger.info("--- Starting Financial Sentiment Analysis Pipeline ---")
-    logger.info(f"Configuration: Model={config.MODEL_NAME}, Task={config.TASK_TYPE}, Device={config.DEVICE}")
 
     # --- 1. Build Tokenizer and Model ---
     tokenizer = model_handler.build_tokenizer()
@@ -72,6 +87,23 @@ def run():
         logger.warning("No best model was saved. Evaluating the model from the last epoch.")
     
     test_results = training.evaluate(model, test_loader, config.DEVICE)
+
+     # --- 3. LOG FINAL RESULTS AND TABLES ---
+    overall_df = pd.DataFrame(test_results['overall_report']).transpose()
+    wandb.log({
+        "test_overall_mse": test_results['overall_mse'],
+        "test_overall_mae": test_results['overall_mae'],
+        "test_overall_report": wandb.Table(dataframe=overall_df.reset_index())
+    })
+
+    for type_name, report in test_results['per_type_reports'].items():
+        type_df = pd.DataFrame(report).transpose()
+        wandb.log({
+            f"test_{type_name}_report": wandb.Table(dataframe=type_df.reset_index())
+        })
+
+    wandb.finish() # End the W&B run
+    
     
     # Display results in a clean format
     logger.info("--- Overall Test Results ---")
