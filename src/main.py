@@ -1,17 +1,35 @@
+import sys
+import os
+
 import torch
-from transformers import get_linear_schedule_with_warmup
+from transformers.optimization import get_linear_schedule_with_warmup
 import pandas as pd
 import copy
+from utlis import get_logger, set_seed
+from data_loader import create_data_loaders
+from train import train_epoch, score_to_label_eval, evaluate
 
 import config
-import utils
-import data_loader
+
+
+# data_loader, training
 import model_handler
-import training
 import wandb
 
+# Get the directory of the current script (main.py)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Get the parent directory (fin-sentiment)
+project_root = os.path.dirname(current_dir)
+# Add the src directory to sys.path
+if project_root not in sys.path:
+    sys.path.append(project_root) # This adds 'fin-sentiment'
+if current_dir not in sys.path:
+    sys.path.append(current_dir) # This adds 'fin-sentiment/src'
+
+
+
 # Initialize logger
-logger = utils.get_logger(__name__)
+logger = get_logger(__name__)
 
 def run():
     """
@@ -33,7 +51,7 @@ def run():
     
     # For convenience, you can access config like wandb.config.learning_rate
     
-    utils.set_seed(wandb.config.seed)
+    set_seed(wandb.config.seed)
 
     logger.info("--- Starting Financial Sentiment Analysis Pipeline ---")
 
@@ -45,7 +63,7 @@ def run():
     # --- 2. Load and Prepare Data ---
     # The data_loader handles downloading, preprocessing, and creating DataLoaders
     # It also populates config.ID2TYPE with the document type mapping.
-    train_loader, val_loader, test_loader = data_loader.create_data_loaders(tokenizer)
+    train_loader, val_loader, test_loader = create_data_loaders(tokenizer)
 
     # --- 3. Setup Optimizer and Scheduler ---
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.LEARNING_RATE)
@@ -62,11 +80,11 @@ def run():
     for epoch in range(config.NUM_EPOCHS):
         logger.info(f"Epoch {epoch + 1}/{config.NUM_EPOCHS}")
         
-        avg_train_loss = training.train_epoch(model, train_loader, optimizer, config.DEVICE, scheduler)
+        avg_train_loss = train_epoch(model, train_loader, optimizer, config.DEVICE, scheduler)
         logger.info(f"Average Training MSE Loss: {avg_train_loss:.4f}")
         
         # Evaluate on the validation set
-        val_results = training.evaluate(model, val_loader, config.DEVICE)
+        val_results = evaluate(model, val_loader, config.DEVICE)
         val_f1 = val_results['overall_report']['weighted avg']['f1-score']
         val_mse = val_results['overall_mse']
         
@@ -86,7 +104,7 @@ def run():
     else:
         logger.warning("No best model was saved. Evaluating the model from the last epoch.")
     
-    test_results = training.evaluate(model, test_loader, config.DEVICE)
+    test_results = evaluate(model, test_loader, config.DEVICE)
 
      # --- 3. LOG FINAL RESULTS AND TABLES ---
     overall_df = pd.DataFrame(test_results['overall_report']).transpose()

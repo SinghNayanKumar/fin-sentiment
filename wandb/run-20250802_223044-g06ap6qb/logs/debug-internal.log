@@ -1,0 +1,13 @@
+{"time":"2025-08-02T22:30:44.3552402+05:30","level":"INFO","msg":"stream: starting","core version":"0.21.0"}
+{"time":"2025-08-02T22:30:44.7933011+05:30","level":"INFO","msg":"stream: created new stream","id":"g06ap6qb"}
+{"time":"2025-08-02T22:30:44.7933011+05:30","level":"INFO","msg":"stream: started","id":"g06ap6qb"}
+{"time":"2025-08-02T22:30:44.7933011+05:30","level":"INFO","msg":"writer: Do: started","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:30:44.793933+05:30","level":"INFO","msg":"sender: started","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:30:44.793933+05:30","level":"INFO","msg":"handler: started","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:31:27.6778956+05:30","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading artifact run-g06ap6qb-test_overall_report","runtime_seconds":2.3060299},{"desc":"uploading artifact run-g06ap6qb-test_headline_report","runtime_seconds":1.3822452,"subtasks":[{"desc":"test_headline_report.table.json","runtime_seconds":0.1638186,"progress":"1.2KB/1.2KB"}]},{"desc":"uploading artifact run-g06ap6qb-test_post_report","runtime_seconds":1.0313627}],"total_operations":3}}
+{"time":"2025-08-02T22:31:30.2032728+05:30","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-08-02T22:31:30.5689397+05:30","level":"INFO","msg":"stream: closing","id":"g06ap6qb"}
+{"time":"2025-08-02T22:31:30.5689397+05:30","level":"INFO","msg":"handler: closed","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:31:30.5689397+05:30","level":"INFO","msg":"writer: Close: closed","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:31:30.5694457+05:30","level":"INFO","msg":"sender: closed","stream_id":"g06ap6qb"}
+{"time":"2025-08-02T22:31:30.5694457+05:30","level":"INFO","msg":"stream: closed","id":"g06ap6qb"}

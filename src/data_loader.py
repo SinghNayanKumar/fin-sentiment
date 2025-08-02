@@ -4,6 +4,8 @@ from datasets import load_dataset
 from transformers import DataCollatorWithPadding, AutoTokenizer
 import config
 
+
+@staticmethod
 def create_data_loaders(tokenizer):
     """
     Loads the FIQA dataset from Hugging Face, preprocesses it for regression,

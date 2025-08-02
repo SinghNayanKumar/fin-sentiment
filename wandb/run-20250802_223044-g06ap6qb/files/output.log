@@ -1,0 +1,40 @@
+2025-08-02 22:30:45 - __main__ - INFO - --- Starting Financial Sentiment Analysis Pipeline ---
+Loading tokenizer for model: bert-base-cased
+Building regression model: bert-base-cased
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-cased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Loading dataset 'TheFinAI/fiqa-sentiment-classification' from Hugging Face Hub...
+Dataset loaded. Splits: ['train', 'test', 'valid']
+Document types found and mapped: {'headline': 0, 'post': 1}
+Tokenizing and formatting dataset...
+Map: 100%|███████████████████████████████████████████████████████████████| 234/234 [00:00<00:00, 5242.54 examples/s]
+DataLoaders created successfully.
+2025-08-02 22:30:52 - __main__ - INFO - --- Starting Training for 4 Epochs ---
+2025-08-02 22:30:52 - __main__ - INFO - Epoch 1/4
+Training:   0%|                                                                              | 0/52 [00:00<?, ?it/s]C:\Nayan\Projects\fin-sentiment\.venv\Lib\site-packages\torch\nn\modules\module.py:1747: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+2025-08-02 22:31:00 - __main__ - INFO - Average Training MSE Loss: 0.1682                                           
+2025-08-02 22:31:00 - __main__ - INFO - Validation MSE: 0.1187 | Validation Weighted F1: 0.4554                     
+2025-08-02 22:31:00 - __main__ - INFO - New best model found with F1: 0.4554 and saved.
+2025-08-02 22:31:00 - __main__ - INFO - Epoch 2/4
+Training:   0%|                                                                              | 0/52 [00:00<?, ?it/s]C:\Nayan\Projects\fin-sentiment\.venv\Lib\site-packages\torch\nn\modules\module.py:1747: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+2025-08-02 22:31:08 - __main__ - INFO - Average Training MSE Loss: 0.1038                                           
+2025-08-02 22:31:08 - __main__ - INFO - Validation MSE: 0.1112 | Validation Weighted F1: 0.6757                     
+2025-08-02 22:31:08 - __main__ - INFO - New best model found with F1: 0.6757 and saved.
+2025-08-02 22:31:08 - __main__ - INFO - Epoch 3/4
+Training:   0%|                                                                              | 0/52 [00:00<?, ?it/s]C:\Nayan\Projects\fin-sentiment\.venv\Lib\site-packages\torch\nn\modules\module.py:1747: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+2025-08-02 22:31:16 - __main__ - INFO - Average Training MSE Loss: 0.0674                                           
+2025-08-02 22:31:16 - __main__ - INFO - Validation MSE: 0.0746 | Validation Weighted F1: 0.7290                     
+2025-08-02 22:31:16 - __main__ - INFO - New best model found with F1: 0.7290 and saved.
+2025-08-02 22:31:16 - __main__ - INFO - Epoch 4/4
+Training:   0%|                                                                              | 0/52 [00:00<?, ?it/s]C:\Nayan\Projects\fin-sentiment\.venv\Lib\site-packages\torch\nn\modules\module.py:1747: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+2025-08-02 22:31:24 - __main__ - INFO - Average Training MSE Loss: 0.0497                                           
+2025-08-02 22:31:24 - __main__ - INFO - Validation MSE: 0.0745 | Validation Weighted F1: 0.7704                     
+2025-08-02 22:31:24 - __main__ - INFO - New best model found with F1: 0.7704 and saved.
+2025-08-02 22:31:24 - __main__ - INFO - --- Training Finished. Starting Final Evaluation on Test Set ---
+Evaluating:   0%|                                                                            | 0/15 [00:00<?, ?it/s]C:\Nayan\Projects\fin-sentiment\.venv\Lib\site-packages\torch\nn\modules\module.py:1747: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+                                                                                                                    

@@ -1,0 +1,78 @@
+_wandb:
+    value:
+        cli_version: 0.21.0
+        e:
+            dcs6112h5c67nf6dk7gfir21n6wl5l71:
+                codePath: src\main.py
+                codePathLocal: src\main.py
+                cpu_count: 10
+                cpu_count_logical: 16
+                cudaVersion: "12.6"
+                disk:
+                    /:
+                        total: "1021821579264"
+                        used: "213929717760"
+                email: nayan.ksingh.mec14@itbhu.ac.in
+                executable: C:\Nayan\Projects\fin-sentiment\.venv\Scripts\python.exe
+                git:
+                    commit: 056f44d361e05630efafe2ed43ca5c972e11ccf7
+                    remote: https://github.com/SinghNayanKumar/fin-sentiment
+                gpu: NVIDIA GeForce RTX 4050 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 2560
+                      memoryTotal: "6439305216"
+                      name: NVIDIA GeForce RTX 4050 Laptop GPU
+                      uuid: GPU-ae8b57d0-d33a-7d4b-22c0-3fe908217834
+                host: LAPTOP-KK825UP4
+                memory:
+                    total: "16890519552"
+                os: Windows-10-10.0.26100-SP0
+                program: C:\Nayan\Projects\fin-sentiment\src\main.py
+                python: CPython 3.11.0
+                root: C:\Nayan\Projects\fin-sentiment
+                startedAt: "2025-08-02T17:00:44.100958Z"
+                writerId: dcs6112h5c67nf6dk7gfir21n6wl5l71
+        m: []
+        python_version: 3.11.0
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 51
+                - 53
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+            "3":
+                - 2
+                - 16
+            "4": 3.11.0
+            "5": 0.21.0
+            "6": 4.54.1
+            "8":
+                - 3
+            "12": 0.21.0
+            "13": windows-amd64
+batch_size:
+    value: 16
+epochs:
+    value: 4
+learning_rate:
+    value: 2e-05
+max_length:
+    value: 256
+model_name:
+    value: bert-base-cased
+seed:
+    value: 42
+task_type:
+    value: absa
